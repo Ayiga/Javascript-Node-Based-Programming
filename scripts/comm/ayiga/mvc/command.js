@@ -31,42 +31,26 @@
  *  POSSIBILITY OF SUCH DAMAGE
  */
 
-require.include("comm.ayiga.mvc.view.View");
+if(!window.comm){
+	comm = {};
+}
 
- function Model(){
- 	Object.call(this);
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
 
- 	var private = {
- 		_views : []
- 	}
+if(!comm.ayiga.mvc){
+	comm.ayiga.mvc = {};
+}
 
- 	this.addView = function( view ){
- 		if( !(view instanceof View)){
- 			return false;
- 		}
- 		if(private._views.indexOf(view) !== -1){
- 			return false;
- 		}
-
- 		private._views.push(view);
- 		return true;
- 	}
-
- 	this.removeView = function( view ){
- 		var index = private._views.indexOf(view);
- 		if(index === -1){
- 			return false;
- 		}
- 		private._views.splice(index,1);
- 		return true;
- 	}
-
- 	this.updateViews = function (){
- 		private._views.forEach(function(view, index, arr){
- 			view.update();
- 		});
+ comm.ayiga.mvc.Command = function(){
+ 	this.run = function(){
+ 		/**
+ 		 * Do Stuff;
+		 **/
+		 return ;
  	}
  }
-
- Model.prototype.constructor = Model;
- Model.prototype = new Object();
+comm.ayiga.mvc.Command.prototype = new comm.ayiga.Object();
+comm.ayiga.mvc.Command.prototype.constructor = comm.ayiga.mvc.Command;
+comm.ayiga.mvc.Command.prototype.className = "Command"; 

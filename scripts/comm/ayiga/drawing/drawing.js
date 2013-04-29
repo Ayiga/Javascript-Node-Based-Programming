@@ -30,24 +30,42 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE
  */
- function Drawable(){
-	Object.call(this);
-	var private = {
-		_frame : new Dimension()
+
+require.include("comm.ayiga.dimensions.Dimension");
+
+if(!window.comm){
+	comm = {};
+}
+
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.drawing){
+	comm.ayiga.drawing = {};
+}
+ 
+ comm.ayiga.drawing.Drawable = function(){
+	var _private = {
+		_frame : new comm.ayiga.dimensions.Dimension()
 	};
 	
-	this.getFrame = function(){
-		return private._frame;
+	function getFrame(){
+		return _private._frame;
 	}
+	this.getFrame = getFrame;
 	
-	this.setFrame = function(frame){
-		if(frame instanceof Dimension)
-			private._frame = frame;
+	function setFrame(frame){
+		if(frame instanceof comm.ayiga.dimensions.Dimension)
+			_private._frame = frame;
 	}
+	this.setFrame = setFrame;
 	
-	this.draw = function(){
+	function draw(){
 		return;
 	}
+	this.draw = draw; 
 }
-Drawable.prototype = new Object();
-Drawable.prototype.constructor = Drawable;
+comm.ayiga.drawing.Drawable.prototype = new comm.ayiga.Object();
+comm.ayiga.drawing.Drawable.prototype.constructor = comm.ayiga.drawing.Drawable;
+comm.ayiga.drawing.Drawable.prototype.className = "Drawable";

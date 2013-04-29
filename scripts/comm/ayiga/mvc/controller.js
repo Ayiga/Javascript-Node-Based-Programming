@@ -34,22 +34,37 @@
  require.include("comm.ayiga.mvc.command.Command");
  require.include("comm.ayiga.mvc.model.Model");
 
- function Controller( model ){
- 	if( !(model instanceof Model) ){
- 		return null;
- 	}
+if(!window.comm){
+	comm = {};
+}
 
- 	var private = {
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.mvc){
+	comm.ayiga.mvc = {};
+}
+
+
+ comm.ayiga.mvc.Controller = function( model ){
+ 	comm.ayiga.Object.call(this);
+ 	var _private = {
  		_model : model
  	};
 
- 	Object.call(this);
+ 	if( !model || !(model instanceof comm.ayiga.mvc.Model) ){
+ 		_private._model = comm.ayiga.mvc.Model.model;
+ 	}
 
  	this.runCommand = function( command ){
  		if( !(command instanceof Command) ){
  			return;
  		}
 
- 		command.run( model );
+ 		command.run( _private._model );
  	}
  }
+comm.ayiga.mvc.Controller.prototype = new comm.ayiga.Object();
+comm.ayiga.mvc.Controller.prototype.constructor = comm.ayiga.mvc.Controller;
+comm.ayiga.mvc.Controller.prototype.className = "Controller";

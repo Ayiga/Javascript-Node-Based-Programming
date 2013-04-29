@@ -31,34 +31,30 @@
  *  POSSIBILITY OF SUCH DAMAGE
  */
 
- require.setManifest(
+require.setManifest(
 {
-	"Base" : "base.js",
+	"Base" 							: "base.js",
 	"comm" : {
-		"Includes" : "includes.js",
+		"Includes" 					: "includes.js",
 		"ayiga" : {
 			"mvc" : {
-				"model" : {
-					"Model" : "model.js"
-					},
-				"view" : {
-					"View" : "view.js"
-					},
-				"controller" : {
-					"Controller" : "controller.js"
-				}
+				"Model" 			: "model.js",
+				"View" 				: "view.js",
+				"Controller" 		: "controller.js",
+				"Command" 			: "command.js",
+				"ViewController" 	: "viewcontroller.js"
 			},
 			"dimensions" : {
-				"Position" 		: "position.js",
-				"Size" 			: "size.js",
-				"Dimensions" 	: "dimensions.js"
-				},
+				"Position" 			: "position.js",
+				"Size" 				: "size.js",
+				"Dimensions" 		: "dimensions.js"
+			},
 			"drawing" : {
-				"Drawing" : "drawing.js"
-				},
+				"Drawing" 			: "drawing.js"
+			},
 			"io" : {
-				"EventHandler" : "eventhandler.js"
-				},
+				"EventHandler" 		: "eventhandler.js"
+			},
 			"node" : {
 				"Node" 				: "node.js",
 				"NodeConnector" 	: "nodeconnector.js",

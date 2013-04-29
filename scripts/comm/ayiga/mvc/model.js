@@ -31,16 +31,53 @@
  *  POSSIBILITY OF SUCH DAMAGE
  */
 
- function Command(){
- 	Object.call(this);
+require.include("comm.ayiga.mvc.view.View");
 
- 	this.run = function(){
- 		/**
- 		 * Do Stuff;
-		 **/
-		 return ;
+if(!window.comm){
+	comm = {};
+}
+
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.mvc){
+	comm.ayiga.mvc = {};
+}
+
+ comm.ayiga.mvc.Model = function(){
+ 	var _private = {
+ 		_views : []
+ 	}
+
+ 	this.addView = function( view ){
+ 		if( !(view instanceof comm.ayiga.mvc.View)){
+ 			return false;
+ 		}
+ 		if(_private._views.indexOf(view) !== -1){
+ 			return false;
+ 		}
+
+ 		_private._views.push(view);
+ 		return true;
+ 	}
+
+ 	this.removeView = function( view ){
+ 		var index = _private._views.indexOf(view);
+ 		if(index === -1){
+ 			return false;
+ 		}
+ 		_private._views.splice(index,1);
+ 		return true;
+ 	}
+
+ 	this.updateViews = function (){
+ 		_private._views.forEach(function(view, index, arr){
+ 			view.update();
+ 		});
  	}
  }
-
- Command.prototype.constructor = Command;
- Command.prototype = new Object();
+comm.ayiga.mvc.Model.prototype = new comm.ayiga.Object();
+comm.ayiga.mvc.Model.prototype.constructor = comm.ayiga.mvc.Model;
+comm.ayiga.mvc.Model.model = new comm.ayiga.mvc.Model(); //Ensures that a static method exits to return the (hopefully) only Model.
+comm.ayiga.mvc.Model.className = "Model";

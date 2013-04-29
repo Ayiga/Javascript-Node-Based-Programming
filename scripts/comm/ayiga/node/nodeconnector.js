@@ -30,11 +30,22 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE
  */
- function NodeConnector( from, fromIndex, to, toIndex){
-	Drawable.call(this);
-	this.className = "NodeConnector";
-	
-	var private = {
+
+if(!window.comm){
+	comm = {};
+}
+
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.node){
+	comm.ayiga.node = {};
+}
+ 
+ comm.ayiga.node.NodeConnector = function( from, fromIndex, to, toIndex){
+ 	Drawable.call(this);
+	var _private = {
 		_from : null,
 		_fromIndex : 0,
 		_to : null,
@@ -42,34 +53,39 @@
 	}
 
 
-	if(from instanceof Node)
-		private._from = from;
+	if(from instanceof comm.ayiga.node.Node)
+		_private._from = from;
 	
 	if(from && fromIndex < from.length && fromIndex >= 0)
-		private._fromIndex = fromIndex;
+		_private._fromIndex = fromIndex;
 	
 	
-	if(to instanceof Node)
-		private._to = to;
+	if(to instanceof comm.ayiga.node.Node)
+		_private._to = to;
 	
 	if(to && toIndex < to.length && toIndex >= 0)
-		private._toIndex = toIndex;
+		_private._toIndex = toIndex;
 	
 	this.getFrom = function(){
-		return private._from;
+		return _private._from;
 	}
 	
 	this.getfromIndex = function(){
-		return private._fromIndex;
+		return _private._fromIndex;
 	}
 	
 	this.getTo = function(){
-		return private._to;
+		return _private._to;
 	}
 	
 	this.getToIndex = function(){
-		return private._toIndex;
+		return _private._toIndex;
+	}
+
+	this.draw = function(){
+
 	}
 }
-NodeConnector.prototype = new Drawable();
-NodeConnector.prototype.constructor = NodeConnector;
+comm.ayiga.node.NodeConnector.prototype = new comm.ayiga.Object( { "extends" : [ comm.ayiga.drawing.Drawable ]});
+comm.ayiga.node.NodeConnector.prototype.constructor = comm.ayiga.node.NodeConnector;
+comm.ayiga.node.NodeConnector.prototype.className = "NodeConnector";

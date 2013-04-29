@@ -53,7 +53,7 @@ function initialize(){
 	}
 
 	nodes = [];
-	var node = new Node();
+	var node = new comm.ayiga.node.Node();
 	nodes.push(node);
 	node.getFrame().getPosition().setX(10);
 	node.getFrame().getPosition().setY(10);
@@ -61,7 +61,7 @@ function initialize(){
 	node.getFrame().getSize().setHeight(100);
 	node.setBackgroundColor("#770000");
 	
-	node = new Node();
+	node = new comm.ayiga.node.Node();
 	nodes.push(node);
 	node.getFrame().getPosition().setX(150);
 	node.getFrame().getPosition().setY(10);
@@ -70,13 +70,13 @@ function initialize(){
 	node.setBackgroundColor("#007700");
 	draw();
 
-	new EventHandler(canvas);
-	canvas.eventHandler.addListener('touchstart', mousedownhandler);
-	canvas.eventHandler.addListener('touchend', mouseuphandler);
-	canvas.eventHandler.addListener('touchmove', mousemovehandler);
-	canvas.eventHandler.addListener('mousedown', mousedownhandler);
-	canvas.eventHandler.addListener('mouseup', mouseuphandler);
-	canvas.eventHandler.addListener('mousemove', mousemovehandler);
+	new comm.ayiga.io.EventHandler(window);
+	window.eventHandler.addListener('touchstart', mousedownhandler);
+	window.eventHandler.addListener('touchend', mouseuphandler);
+	window.eventHandler.addListener('touchmove', mousemovehandler);
+	window.eventHandler.addListener('mousedown', mousedownhandler);
+	window.eventHandler.addListener('mouseup', mouseuphandler);
+	window.eventHandler.addListener('mousemove', mousemovehandler);
 
 	
 	/*c.addEventListener('touchstart', mousedownhandler);
@@ -112,16 +112,16 @@ function draw(){
 	y = nodes[0].getFrame().getPosition().getY() +
 		nodes[0].getFrame().getSize().getHeight() / 2.0;
 		
-	var start = new Position({"x" : x, "y" : y});
+	var start = new comm.ayiga.dimensions.Position({"x" : x, "y" : y});
 	
 	x = nodes[1].getFrame().getPosition().getX();
 	y = nodes[1].getFrame().getPosition().getY() +
 		nodes[1].getFrame().getSize().getHeight() / 2.0;
 		
-	var end = new Position({"x" : x, "y" : y});
+	var end = new comm.ayiga.dimensions.Position({"x" : x, "y" : y});
 	
-	var weight1 = new Position({"x" : end.getX(), "y" : start.getY()});
-	var weight2 = new Position({"x" : start.getX(), "y" : end.getY()});
+	var weight1 = new comm.ayiga.dimensions.Position({"x" : end.getX(), "y" : start.getY()});
+	var weight2 = new comm.ayiga.dimensions.Position({"x" : start.getX(), "y" : end.getY()});
 	
 	points.push(start);
 	points.push(weight1);
@@ -142,7 +142,7 @@ function draw(){
 		var t = i/iterations;
 		var x = 0, y = 0;
 		for(var j = 0; j < n; j++){
-			var coeff = Math.binomialCoefficient(n - 1, j);
+			var coeff = comm.ayiga.Math.binomialCoefficient(n - 1, j);
 			var temp = coeff * Math.pow(1 - t, n - j - 1) * Math.pow(t, j);
 			x += temp * points[j].getX();
 			y += temp * points[j].getY();
@@ -172,7 +172,7 @@ function mousedownhandler(e){
 	//x = Math.affineTransform(0, x, window.innerWidth, c.offsetLeft, c.offsetWidth + c.offsetLeft);
 	//y = Math.affineTransform(0, y, window.innerHeight, c.offsetTop, c.offsetHeight + c.offsetTop);
 	nodes.forEach(function(node, index, array){
-		if(node.getFrame().containsPoint(new Position({"x" : x, "y" : y }))){
+		if(node.getFrame().containsPoint(new comm.ayiga.dimensions.Position({"x" : x, "y" : y }))){
 			selectedNode = node;
 		}
 	});

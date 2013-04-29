@@ -31,24 +31,39 @@
  *  POSSIBILITY OF SUCH DAMAGE
  */
 
-function Dimension(){
-	Object.call(this);
-	this.className = "Dimension";
-	var private = {
-		_size : new Size(),
-		_position : new Position()
+require.include("comm.ayiga.dimensions.Size");
+require.include("comm.ayiga.dimensions.Position");
+
+if(!window.comm){
+	comm = {};
+}
+
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.dimensions){
+	comm.ayiga.dimensions = {};
+}
+
+comm.ayiga.dimensions.Dimension = function(){
+	var _private = {
+		_size : new comm.ayiga.dimensions.Size(),
+		_position : new comm.ayiga.dimensions.Position()
 	};
 	
-	this.getSize = function(){
-		return private._size;
+	function getSize(){
+		return _private._size;
 	}
+	this.getSize = getSize;
 	
-	this.getPosition = function(){
-		return private._position;
+	function getPosition(){
+		return _private._position;
 	}
+	this.getPosition = getPosition;
 	
-	this.containsPoint = function(point){
-		if( !(point instanceof Position) ){
+	function containsPoint(point){
+		if( !(point instanceof comm.ayiga.dimensions.Position) ){
 			return false;
 		}
 		
@@ -57,6 +72,8 @@ function Dimension(){
 				point.getY() >= this.getPosition().getY() &&
 				point.getY() <= this.getPosition().getY() + this.getSize().getHeight();
 	}
+	this.containsPoint = containsPoint;
 }
-Dimension.prototype = new Object();
-Dimension.prototype.constructor = Dimension;
+comm.ayiga.dimensions.Dimension.prototype = new comm.ayiga.Object();
+comm.ayiga.dimensions.Dimension.prototype.constructor = comm.ayiga.dimensions.Dimension;
+comm.ayiga.dimensions.Dimension.prototype.className = "Dimension";

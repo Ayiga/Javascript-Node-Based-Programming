@@ -42,38 +42,327 @@
  * May end up discarding this class in the long run, if not, will require a major revision
  * as some point.
  **/
-function EventHandler( element ){
+
+if(!window.comm){
+	comm = {};
+}
+
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.io){
+	comm.ayiga.io = {};
+}
+
+comm.ayiga.io.EventHandler = function( element ){
 	if(!element){
 		return null;
 	}
-
-	Object.call(this);
 	element.eventHandler = this;
 
-	var private = {
+	var _private = {
 		_element : element,
-		_eventBindings : {}
+		_eventBindings : {},
+		_eventTypes : [
+			"abort",
+			"Addons",
+			"afterprint",
+			"afterscriptexecute",
+			"AlertActive",
+			"AlertClose",
+			"animationend",
+			"animationiteration",
+			"animationstart",
+			"audioprocess",
+			"beforeprint",
+			"beforescriptexecute",
+			"beforeunload",
+			"beginEvent",
+			"blocked",
+			"blur",
+			"broadcast",
+			"cached",
+			"canplay",
+			"canplaythrough",
+			"cardstatechange",
+			"cfstatechange",
+			"change",
+			"chargingchange",
+			"chargingtimechange",
+			"CheckboxStateChange",
+			"checking",
+			"click",
+			"close",
+			"command",
+			"commandupdate",
+			"compassneedscalibration",
+			"complete",
+			"compositionend",
+			"compositionstart",
+			"compositionupdate",
+			"connectionInfoUpdate",
+			"contextmenu",
+			"copy",
+			"CssRuleViewChanged",
+			"CssRuleViewCSSLinkClicked",
+			"CssRuleViewRefreshed",
+			"cut",
+			"datachange",
+			"dataerror",
+			"dblclick",
+			"devicehumidity",
+			"devicelight",
+			"devicemotion",
+			"devicenoise",
+			"deviceorientation",
+			"devicepressure",
+			"deviceproximity",
+			"devicetemperature",
+			"Devtools",
+			"dischargingtimechange",
+			"DOMActivate",
+			"DOMAttributeNameChanged",
+			"DOMAttrModified",
+			"DOMAutoComplete",
+			"DOMCharacterDataModified",
+			"DOMContentLoaded",
+			"DOMElementNameChanged",
+			"DOMFocusIn",
+			"DOMFocusOut",
+			"DOMFrameContentLoaded",
+			"DOMLinkAdded",
+			"DOMLinkRemoved",
+			"DOMMenuItemActive",
+			"DOMMenuItemInactive",
+			"DOMMetaAdded",
+			"DOMMetaRemoved",
+			"DOMModalDialogClosed",
+			"DOMMouseScroll",
+			"DOMNodeInserted",
+			"DOMNodeInsertedIntoDocument",
+			"DOMNodeRemoved",
+			"DOMNodeRemovedFromDocument",
+			"DOMPopupBlocked",
+			"DOMSubtreeModified",
+			"DOMTitleChanged",
+			"DOMWillOpenModalDialog",
+			"DOMWindowClose",
+			"DOMWindowCreated",
+			"downloading",
+			"drag",
+			"dragdrop",
+			"dragend",
+			"dragenter",
+			"dragexit",
+			"draggesture",
+			"dragleave",
+			"dragover",
+			"dragstart",
+			"drop",
+			"durationchange",
+			"emptied",
+			"ended",
+			"endEvent",
+			"error",
+			"Event",
+			"focus",
+			"focusin",
+			"focusout",
+			"fullscreen",
+			"fullscreenchange",
+			"fullscreenerror",
+			"gamepadconnected",
+			"gamepaddisconnected",
+			"hashchange",
+			"icccardlockerror",
+			"iccinfochange",
+			"input",
+			"invalid",
+			"keydown",
+			"keypress",
+			"keyup",
+			"levelchange",
+			"load",
+			"loadeddata",
+			"loadedmetadata",
+			"loadend",
+			"loadstart",
+			"localized",
+			"message",
+			"mousedown",
+			"mouseenter",
+			"mouseleave",
+			"mousemove",
+			"mouseout",
+			"mouseover",
+			"mouseup",
+			"mousewheel",
+			"MozAfterPaint",
+			"MozAudioAvailable",
+			"MozBeforeResize",
+			"MozEdgeUIGesture",
+			"MozEnteredDomFullscreen",
+			"MozGamepadAxisMove",
+			"MozGamepadButtonDown",
+			"MozGamepadButtonUp",
+			"Mozilla",
+			"MozMagnifyGesture",
+			"MozMagnifyGestureStart",
+			"MozMagnifyGestureUpdate",
+			"MozMousePixelScroll",
+			"MozOrientation",
+			"MozPressTapGesture",
+			"MozRotateGesture",
+			"MozRotateGestureStart",
+			"MozRotateGestureUpdate",
+			"MozScrolledAreaChanged",
+			"MozSwipeGesture",
+			"MozTapGesture",
+			"MozTouchDown",
+			"MozTouchMove",
+			"MozTouchUp",
+			"Non",
+			"noupdate",
+			"obsolete",
+			"offline",
+			"onalerting",
+			"onbusy",
+			"oncallschanged",
+			"onconnected",
+			"onconnecting",
+			"ondelivered",
+			"ondialing",
+			"ondisabled",
+			"ondisconnected",
+			"ondisconnecting",
+			"onenabled",
+			"onerror",
+			"onheld",
+			"onholding",
+			"onincoming",
+			"online",
+			"onreceived",
+			"onresuming",
+			"onsent",
+			"onstatechange",
+			"onstatuschange",
+			"open",
+			"orientationchange",
+			"overflow",
+			"pagehide",
+			"pageshow",
+			"paste",
+			"pause",
+			"play",
+			"playing",
+			"pointerlockchange",
+			"pointerlockerror",
+			"popstate",
+			"popuphidden",
+			"popuphiding",
+			"popupshowing",
+			"popupshown",
+			"progress",
+			"progress",
+			"RadioStateChange",
+			"ratechange",
+			"readystatechange",
+			"repeatEvent",
+			"reset",
+			"resize",
+			"scroll",
+			"seeked",
+			"seeking",
+			"select",
+			"show",
+			"sizemodechange",
+			"SSTabClosing",
+			"SSTabRestored",
+			"SSTabRestoring",
+			"SSWindowClosing",
+			"SSWindowStateBusy",
+			"SSWindowStateReady",
+			"stalled",
+			"stkcommand",
+			"stksessionend",
+			"storage",
+			"submit",
+			"success",
+			"suspend",
+			"SVGAbort",
+			"SVGError",
+			"SVGLoad",
+			"SVGResize",
+			"SVGScroll",
+			"SVGUnload",
+			"SVGZoom",
+			"TabClose",
+			"TabHide",
+			"TabOpen",
+			"TabPinned",
+			"TabSelect",
+			"TabShow",
+			"TabUnpinned",
+			"tabviewframeinitialized",
+			"tabviewhidden",
+			"tabviewsearchdisabled",
+			"tabviewsearchenabled",
+			"tabviewshown",
+			"text",
+			"timeout",
+			"timeupdate",
+			"touchcancel",
+			"touchenter",
+			"touchleave",
+			"touchmove",
+			"touchstart",
+			"transitionend",
+			"unload",
+			"updateready",
+			"upgradeneeded",
+			"uploadprogress",
+			"userproximity",
+			"ussdreceived",
+			"ValueChange",
+			"versionchange",
+			"visibilitychange",
+			"voicechange",
+			"volumechange",
+			"waiting",
+			"wheel",
+			"XUL"
+			]
 	};
 
-	this.addListener = function( event_type, func){
-		if(!private._eventBindings[event_type]){
-			private._eventBindings[event_type] = [];
-		}
-		private._element.addEventListener(event_type, this.handleEvent);
-		private._eventBindings[event_type].push(func);
+
+	for(var i = 0; i < _private._eventTypes.length; i++){
+		var temp = _private._element.addEventListener( _private._eventTypes[i], this);
+		temp;
 	}
 
-	this.handleEvent = function( e ){
-		var event = e ? e:event;
-		if(!event.type){
-			return;
+	this.addListener = function( event_type, func){
+		if(!_private._eventBindings[event_type]){
+			_private._eventBindings[event_type] = [];
 		}
-		if(private._eventBindings[event.type]){
-			private._eventBindings[event.type].forEach(function(element, index, arr){
+		_private._eventBindings[event_type].push(func);
+	}
+
+	this.handleEvent = function( event ){
+		//var event = e ? e:event;
+		//if(!event.type){
+		//	return;
+		//}
+
+		//console.log(event);
+		if(_private._eventBindings[event.type]){
+			_private._eventBindings[event.type].forEach(function(element, index, arr){
 				element(event);
 			});
 		}
 	}
 }
-EventHandler.prototype.constructor = EventHandler;
-EventHandler.prototype = new Object();
+
+comm.ayiga.io.EventHandler.prototype = new comm.ayiga.Object();
+comm.ayiga.io.EventHandler.prototype.constructor = comm.ayiga.io.EventHandler;
+comm.ayiga.io.EventHandler.prototype.className = "EventHandler";

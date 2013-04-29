@@ -31,36 +31,47 @@
  *  POSSIBILITY OF SUCH DAMAGE
  */
 
-function Position( pos ){
-	Object.call(this);
-	this.className = "Position";
-	var private = {
+if(!window.comm){
+	comm = {};
+}
+
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.dimensions){
+	comm.ayiga.dimensions = {};
+}
+
+comm.ayiga.dimensions.Position = function( pos ){
+	var _private = {
 		_x : 0.0,
 		_y : 0.0
 	};
 	
 	if(pos){
 		if(pos.x)
-			private._x = pos.x;
+			_private._x = pos.x;
 		if(pos.y)
-			private._y = pos.y;
+			_private._y = pos.y;
 	}
 	
 	this.setX = function(x){
-		private._x = x;
+		_private._x = x;
 	}
 	
 	this.getX = function(){
-		return private._x;
+		return _private._x;
 	}
 	
 	this.setY = function(y){
-		private._y = y;
+		_private._y = y;
 	}
 	
 	this.getY = function(){
-		return private._y;
+		return _private._y;
 	}
 }
-Position.prototype = new Object();
-Position.prototype.constructor = Position;
+comm.ayiga.dimensions.Position.prototype = new Object();
+comm.ayiga.dimensions.Position.prototype.constructor = comm.ayiga.dimensions.Position;
+comm.ayiga.dimensions.Position.prototype.className = "Position";

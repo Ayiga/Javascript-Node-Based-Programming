@@ -30,12 +30,16 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE
  */
+
 require.include("comm.ayiga.dimensions.Position");
 require.include("comm.ayiga.dimensions.Size");
 require.include("comm.ayiga.dimensions.Dimensions");
 require.include("comm.ayiga.drawing.Drawing");
+require.include("comm.ayiga.mvc.Model");
+require.include("comm.ayiga.mvc.View");
+require.include("comm.ayiga.mvc.Controller");
+require.include("comm.ayiga.mvc.ViewController");
 require.include("comm.ayiga.node.Node");
 require.include("comm.ayiga.node.NodeConnector");
 require.include("comm.ayiga.node.NodeOperator");
 require.include("comm.ayiga.io.EventHandler");
-require.include("comm.ayiga.mvc.model.Model");

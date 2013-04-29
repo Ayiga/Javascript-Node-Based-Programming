@@ -30,11 +30,22 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE
  */
- function NodeOperator(){
-	Node.call(this);
-	this.className = "NodeOperator";
-	
+ 
+if(!window.comm){
+	comm = {};
+}
+
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.node){
+	comm.ayiga.node = {};
+}
+ 
+comm.ayiga.node.NodeOperator = function(){
 	//Ensures that Every NodeOperator will have a process function that will process the results.
+	comm.ayiga.node.Node.call(this);
 	this.process = function(){
 		var inputs = this.getInputs();
 		var outputs = this.getOutputs();
@@ -43,5 +54,6 @@
 		}
 	}
 }
-NodeOperator.prototype = new Node();
-NodeOperator.prototype.constructor = NodeOperator;
+comm.ayiga.node.NodeOperator.prototype = new comm.ayiga.Object( { "extends" : [ comm.ayiga.node.Node ] });
+comm.ayiga.node.NodeOperator.prototype.constructor = comm.ayiga.node.NodeOperator;
+comm.ayiga.node.NodeOperator.prototype.className = "NodeOperator";

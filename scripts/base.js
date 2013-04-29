@@ -31,19 +31,44 @@
  *  POSSIBILITY OF SUCH DAMAGE
  */
 
- if(!Math){
-	Math = {};
+// Make the comm package/namespace
+if(!window.comm){
+	comm = {};
 }
 
-Math.fact = function (n){
+// Make the comm.ayiga subset
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+/**
+ * Make the Math Package to implement our own Math Functions that are not
+ * currently standard.  This allows us to ensure that these functions will
+ * exist, and that they are implemented in this way, even if base Math
+ * eventually defines a standard version of them.
+ **/
+if(!comm.ayiga.Math){
+	comm.ayiga.Math = {};
+}
+
+
+/**
+ * returns the factorial of a number n.  This function is defined recursively
+ * it returns n * fact(n - 1) until it reaches 0.
+ **/
+comm.ayiga.Math.fact = function (n){
+	n = Math.floor(n);
 	if(n <= 0){
 		return 1;
 	}
 	
-	return n * Math.fact(n - 1);
+	return n * comm.ayiga.Math.fact(n - 1);
 }
 
-Math.binomialCoefficient = function (n, k){
+/**
+ * 
+ **/
+comm.ayiga.Math.binomialCoefficient = function (n, k){
 	var result = 1;
 	for(var i = 1; i <= k; i++){
 		result *= (n - (k - i)) / i;
@@ -53,20 +78,60 @@ Math.binomialCoefficient = function (n, k){
 }
 
 //From o - O to i - I
-Math.affineTransform = function (o, x, O, i, I){
+comm.ayiga.Math.affineTransform = function (o, x, O, i, I){
 	var result = ((I - i) * (x - o) / (O - o)) + i;
 	
 	return result;
 }
 
-var Object = function(){
-	this.className = "Object";
+/**
+ * Object Redefinition.  There's things that I'd like every function to have/do
+ * Specifically when it comes to inheritance.  It's a great bit hacky, and it's
+ * not something I particuallry care for.  However, it's behavior that doesn't
+ * exist in javascript, and as such, I feel that it is a bit warnted.
+ *
+ * Redefines the default toString to return the public variable className
+ *
+ * Adds function inherits, when provided a function, returns true if the class
+ * it was called on was inherited.
+ **/
+ comm.ayiga.Object = function( inheritance ){
+	if( !this.prototypes ){
+		this.prototypes = [];
+	}
+	if( inheritance && inheritance.extends ){
+		for(var i = 0; i < inheritance.extends.length; i++){
+			if(this.prototypes.indexOf(inheritance.extends[i]) === -1){
+				this.prototypes.push( new inheritance.extends[i]);
+				inheritance.extends[i].call(this);
+			}
+		}
+	}
+
+	/**
+	 * The inherits function is used to determine if this class has inherited
+	 * the specified class given by class_construct
+	 *
+	 * returns true if it inherits the class and false otherwise
+	 **/
+	function inherits( class_construct ){
+		var result = false;
+		for(var i = 0; i < this.prototypes.length; i++){
+			result = result || (this.prototypes[i] instanceof class_construct) || this.prototypes[i].inherits( class_construct );
+		}
+
+		return result;
+	}
+	this.inherits = inherits;
 	
-	this.toString = function(){
+	function toString(){
 		var str = this.className;
 		return str;
 	}
+	this.toString = toString;
 }
+comm.ayiga.Object.prototype.constructor = Object;
+comm.ayiga.Object.prototype.className = "Object";
 
 var getAjaxObject = function(){
 	if(window.XMLHttpRequest){
@@ -82,23 +147,22 @@ var getAjaxObject = function(){
  * said files.
  **/
 function Require() {
-	this.className = "require";
-	Object.call(this);
-	var private = {
+	var _private = {
 		_included : [ "Base" ],
 		_baseurl :  "scripts/",
 		_manifest : {}
 	};
 	
-	this.setManifest = function ( manifest ){
-		private._manifest = manifest;
+	function setManifest( manifest ){
+		_private._manifest = manifest;
 	}
+	this.setManifest = setManifest;
 
 	var include_helper = function( name_arr, manifest ){
 		var includes = [];
 		var classes = [];
 		var manifest_ref = manifest;
-		var path_acc = private._baseurl;
+		var path_acc = _private._baseurl;
 		name_arr.reverse();
 		while(name_arr.length){
 			var name = name_arr.pop();
@@ -122,13 +186,13 @@ function Require() {
 			}
 		}
 		includes.forEach(function(element, index, arr){
-			if(private._included.indexOf(element) === -1){
+			if(_private._included.indexOf(element) === -1){
 				var script = document.createElement("script");
 				script.setAttribute("type","text/javascript");
 				script.setAttribute("async","");
 				script.src = element;
 				document.head.insertBefore(script, document.head.childNodes[0]);
-				private._included.push(element);
+				_private._included.push(element);
 			}
 		});
 
@@ -142,13 +206,14 @@ function Require() {
 	 * ex:
 	 * scripts/com/putable/test.js
 	 **/
-	this.include = function( name ) {
+
+	function include( name ){
 		var name_arr = name.split(".");
-		return include_helper(name_arr, private._manifest);
+		return include_helper(name_arr, _private._manifest);
 	}
+	this.include = include;
 }
+Require.prototype = new comm.ayiga.Object();
 Require.prototype.constructor = Require;
-Require.prototype = Object;
+Require.prototype.className = "Require";
 require = new Require();
-
-

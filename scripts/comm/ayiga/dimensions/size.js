@@ -30,31 +30,42 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE
  */
- function Size(){
-	Object.call(this);
-	this.className = "Size";
-	
-	var private = {
+ 
+if(!window.comm){
+	comm = {};
+}
+
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.dimensions){
+	comm.ayiga.dimensions = {};
+}
+ 
+ comm.ayiga.dimensions.Size = function(){	
+	var _private = {
 		_height : 0.0,
 		_width : 0.0
 	};
 	
 	
 	this.setHeight = function(height){
-		private._height = height;
+		_private._height = height;
 	}
 	
 	this.getHeight = function(){
-		return private._height;
-	}
-	
-	this.getWidth = function(){
-		return private._width;
+		return _private._height;
 	}
 	
 	this.setWidth = function(width){
-		private._width = width;
+		_private._width = width;
+	}
+
+	this.getWidth = function(){
+		return _private._width;
 	}
 }
-Size.prototype = new Object();
-Size.prototype.constructor = Size;
+comm.ayiga.dimensions.Size.prototype = new comm.ayiga.Object();
+comm.ayiga.dimensions.Size.prototype.constructor = comm.ayiga.dimensions.Size;
+comm.ayiga.dimensions.Size.prototype.className = "Size";

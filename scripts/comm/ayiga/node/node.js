@@ -30,65 +30,124 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE
  */
- function Node(){
-	//Constructor For Extension
-	Drawable.call(this);
-	this.className = "Node";
-	var private = {
+require.include("comm.ayiga.mvc.ViewController");
+
+if(!window.comm){
+	comm = {};
+}
+
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.node){
+	comm.ayiga.node = {};
+}
+
+/**
+ * The Node class is meant to represent a programming Node.
+ * The specific definition for what a node is can be a little
+ * difficult to specify.
+ *
+ * The general purpose of a Node is to recieve and/or send data.
+ * The node may also perform operations on the data.  The
+ * operations that these Nodes do, and do not perform are up
+ * to anything that extends a Node.
+ *
+ * Ths Node object maintains the default drawing method for
+ * all nodes, as well as all input and output management.
+ **/
+comm.ayiga.node.Node = function(){
+ 	comm.ayiga.mvc.ViewController.call(this);
+	var _private = {
 		_inputs : [],
 		_outputs : [],
 		_backgroundColor : "#FF0000"
 	}
 	
-	this.hasInputs = function(){
-		return private._inputs.length > 0;
+	/**
+	 * hasInputs is a simple function that provides a quick
+	 * check to see whether the Node it is called on has inputs
+	 * or not.
+	 *
+	 * returns true if the inputs array is not empty and false
+	 * otherwise
+	 **/
+	function hasInputs(){
+		return _private._inputs.length > 0;
 	}
+	this.hasInputs = hasInputs;
 	
-	this.hasOutputs = function(){
-		return private._outputs.length > 0;
+	/**
+	 * hasOutputs is a simple function that provides a quick
+	 * check to see whether the Node it is called on has outputs
+	 * or not.
+	 * returns true if the outpus array is not empty and false
+	 * otherwise
+	 **/
+	function hasOutputs(){
+		return _private._outputs.length > 0;
 	}
+	this.hasOutputs = hasOutputs;
 	
-	this.getInputs = function(){
-		return private._inputs;
+	/**
+	 * the getInputs function returns the array of inputs directly
+	 * to the user.  Ideally this should return a clone of the array
+	 * At the moment, it just returns the reference.
+	 *
+	 * returns an array of nodeData representing the input nodes.
+	 **/
+	function getInputs(){
+		return _private._inputs;
 	}
+	this.getInputs = getInputs;
 	
-	this.getOutputs = function(){
-		return private._outputs;
+	/**
+	 *
+	 **/
+	function getOutputs(){
+		return _private._outputs;
 	}
+	this.getOutputs = getOutputs;
 	
-	this.getBackgroundColor = function(){
-		return private._backgroundColor;
+	function getBackgroundColor(){
+		return _private._backgroundColor;
 	}
+	this.getBackgroundColor = getBackgroundColor;
 	
-	this.setBackgroundColor = function( backgroundColor ){
-		private._backgroundColor = backgroundColor;
+	function setBackgroundColor( backgroundColor ){
+		_private._backgroundColor = backgroundColor;
 	}
+	this.setBackgroundColor = setBackgroundColor;
 
-	this.addData = function( data, isinput ){
+	function adddata( data, isinput ){
 		if(isinput){
-			private._inputs.push(new NodeData( this, private._inputs.length, data));
+			_private._inputs.push(new comm.ayiga.node.NodeData( this, _private._inputs.length, data));
 		}
 		else{
-			private._outputs.push(new NodeData( this, private._outputs.length, data));
+			_private._outputs.push(new comm.ayiga.node.NodeData( this, _private._outputs.length, data));
 		}
 	}
+	this.addData = adddata;
 	
-	this.draw = function(){
-		private._inputs.forEach(function( nodedata, index, array ) {
+	function draw(){
+		_private._inputs.forEach(function( nodedata, index, array ) {
 			nodedata.draw();
 		});
 
-		private._outputs.forEach(function( nodedata, index, array ) {
+		_private._outputs.forEach(function( nodedata, index, array ) {
 			nodedata.draw();
 		});
-		Context2D.fillStyle=private._backgroundColor;
+		Context2D.fillStyle = _private._backgroundColor;
 		Context2D.fillRect( 
 			this.getFrame().getPosition().getX(),
 			this.getFrame().getPosition().getY(),
 			this.getFrame().getSize().getWidth(),
 			this.getFrame().getSize().getHeight());
-
 	}
+	this.draw = draw;
 }
-Node.prototype = new Drawable();
-Node.prototype.constructor = Node;
+//Node.prototype.prototypes = [ Drawable ];
+comm.ayiga.node.Node.prototype = new comm.ayiga.Object( { "extends" : [ comm.ayiga.mvc.ViewController ] });
+comm.ayiga.node.Node.prototype.constructor = comm.ayiga.node.Node;
+comm.ayiga.node.Node.prototype.className = "Node";

@@ -34,9 +34,20 @@
 require.include("comm.ayiga.drawable.Drawable");
 require.include("comm.ayiga.model.Model");
 
- function View(){
- 	Drawable.call(this);
+if(!window.comm){
+	comm = {};
+}
 
+if(!comm.ayiga){
+	comm.ayiga = {};
+}
+
+if(!comm.ayiga.mvc){
+	comm.ayiga.mvc = {};
+}
+
+ comm.ayiga.mvc.View = function(){
+ 	comm.ayiga.drawing.Drawable.call(this);
  	this.update = function( model ){
  		/**
  		 * Do Stuff
@@ -44,6 +55,6 @@ require.include("comm.ayiga.model.Model");
  		 return;
  	}
  }
-
- View.prototype.constructor = View;
- View.prototype = new Drawable();
+comm.ayiga.mvc.View.prototype = new comm.ayiga.Object( { "extends" : [ comm.ayiga.drawing.Drawable ] });
+comm.ayiga.mvc.View.prototype.constructor = comm.ayiga.mvc.View; 
+comm.ayiga.mvc.View.prototype.className = "View";

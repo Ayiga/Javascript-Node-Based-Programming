@@ -39,34 +39,15 @@ if(!comm.ayiga){
 	comm.ayiga = {};
 }
 
-if(!comm.ayiga.node){
-	comm.ayiga.node = {};
+if(!comm.ayiga.mvc){
+	comm.ayiga.mvc = {};
 }
 
-/**
- * This would be the little Node Circle.  NodeConncectors Connect These
- * Bits.
- **/
- comm.ayiga.node.NodeData = function( node, index, dataMember ){
- 	comm.ayiga.drawing.Drawable.call(this);
- 	var _private = {
- 		_data : dataMember,
- 		_index : index,
- 		_parent : node
- 	};
-
- 	this.setData = function( data ){
- 		_private._data = data;
- 	}
-
- 	this.getData = function(){
- 		return _private._data;
- 	}
-
- 	this.draw = function(){
-
- 	}
+ comm.ayiga.mvc.ViewController = function(){
+ 	comm.ayiga.mvc.View.call(this);
+ 	comm.ayiga.mvc.Controller.call(this);
  }
-comm.ayiga.node.NodeData.prototype = new comm.ayiga.Object( { "extends" : [ comm.ayiga.drawing.Drawable ] });
-comm.ayiga.node.NodeData.prototype.constructor = comm.ayiga.node.NodeData;
-comm.ayiga.node.NodeData.prototype.className = "NodeData";
+
+ comm.ayiga.mvc.ViewController.prototype = new comm.ayiga.Object( { "extends" : [ comm.ayiga.mvc.View, comm.ayiga.mvc.Controller ] } );
+ comm.ayiga.mvc.ViewController.prototype.constructor = comm.ayiga.mvc.ViewController;
+ comm.ayiga.mvc.ViewController.prototype.className = "ViewController";
